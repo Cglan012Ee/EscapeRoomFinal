@@ -1,5 +1,5 @@
 # EscapeRoomFinal
-Creating an escape room themed game where player is stuck in a locked room with a view of four doors.
+Creating an escape room GUI themed game where player is stuck in a locked room with a view of four doors.
 Game prompts you to use provided empty backpack.
 Upon entering levels (doors) there will be items to collect in your backpack; hopefully the right item was chosen as you need
 to complete the game with the correct items otherwise final level will notify GAME OVER.

@@ -1,0 +1,68 @@
+from breezypythongui import EasyFrame
+import tkinter
+import pygame
+import time
+
+play = True
+roomList = ("room1", "room2", "room3", "room4")
+
+
+
+def __init__(self):
+    EasyFrame.__init__(self, title = "Name of Game/Escape Room" )
+    self.inputLabel = self.inputLabel(row = 0, column = 0,
+                                      text = "Label")
+    self.textField = self.textField(row = 1, column = 0,
+                                      text = "")
+    self.entryButton = self.addButton (row = 2, column = 0,
+                                       text = "Enter"
+                                       command = self.Enter)
+    
+
+    backpack = {
+	"key":"none",
+	"saw":"none",
+	"axe":"none",
+	"bust":"none"
+	}
+
+    print("Storyline/Beginning of story")
+
+    print("You find an empty backpack")
+
+    print("Look around the room and you see 2 phones and 3 tablets and \
+	1 folder and 4 zebra figurines")
+    self.addButton(text = "Door 1", row = 3, column = 0, command = self.roomOne)
+    self.addButton(text = "Door 2", row = 3, column = 1, command = self.roomTwo)
+    self.addButton(text = "Door 3", row = 3, column = 2, command = self.roomThree)
+    self.addButton(text = "Door 4", row = 3, column = 3, command = self.roomFour)
+    
+
+def roomOne(self):
+    MAX_ENTRIES = 4
+    self.counter = 1
+    print("On the door you see a keycode that requires four digits to open")
+    textEntry = self.textField.getText()
+    if textEntry == "1234":
+        print("This is where puzzle in room 1 is located")
+    #picture of room 1
+    #if/else puzzle/riddle to gain backpack item
+    #recieve item to add to backpack dictionary if riddle/puzzle is correct
+    elif:
+        print("That's the wrong code.")
+        counter += 1
+    else:
+        print("You've failed too many time; GAME OVER")
+        print("termination in 15 seconds")
+        time.sleep(15)
+        exit()
+        
+def roomTwo(self):
+
+    
+
+def roomThree(self):
+    
+
+def roomFour(self):
+    

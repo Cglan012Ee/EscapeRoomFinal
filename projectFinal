@@ -1,28 +1,62 @@
 """
+
 File:EscapeRoom.py
 Author:Ciara Glancy
 
 An escape room game where player navigates through a number of
 doors to choose from in hopes of freedom. Each level will include
-a puzzle to aid in finding escape. Player gains and chooses items
+a puzzle to aid in finding freedom. Player gains and chooses items
 throughout the game then will find out if chosen items are the
 correct ones to win victory.
 
+
 """
+
+
 from breezypythongui import EasyFrame
 import tkinter
 import pygame
 import time
 
-pygame.image.load(fourdoors.png)
+pygame.init()
 
+# define the RGB value 
+# for white colour 
+white = (255, 255, 255)
+
+
+# assigning values to X and Y variable 
+X = 400
+Y = 400
+
+
+
+display_surface = pygame.display.set_mode((400, 400 ))
+
+pygame.display.set_caption('Locked - Try To Escape!')
+
+# create a surface object, image is drawn on it. 
+picture = pygame.image.load("fourdoors.png")
+picture = pygame.transform.scale(picture, (400, 425))
+
+while True :
+    display_surface.fill(white)
+    display_surface.blit(picture, (0, 0)) #blit is block image transfer
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        pygame.display.update()
+            
+            
+    
 play = True
-roomList = ("room1", "room2", "room3", "room4")
+roomList = ("room1", "room2", "room3")
 
 
 
 def __init__(self):
-    EasyFrame.__init__(self, title = "Locked - Escape Room" )
+    EasyFrame.__init__(self, title = "Locked - Try to Escape!" )
     self.inputLabel = self.inputLabel(row = 0, column = 0,
                                       text = "Label")
     self.textField = self.textField(row = 1, column = 0,
@@ -30,56 +64,149 @@ def __init__(self):
     self.entryButton = self.addButton (row = 2, column = 0,
                                        text = "Enter",
                                        command = self.Enter)
+    self.addButton(text = "Door 1", row = 3, column = 0, command = self.doorOne)
+    self.addButton(text = "Door 2", row = 3, column = 1, command = self.roomTwo)
+    self.addButton(text = "Door 3", row = 3, column = 2, command = self.roomThree)
+    self.doorOneButton["state"] = "normal"
+    self.roomTwoButton["state"] = "normal"
+    self.roomThreeButton["state"] = "normal"
     
 # Dictionary of backpack inventory "items collected"
 #Start backpack off as empty
     backpack = {
-	"key":"none",
-	"saw":"none",
-	"axe":"none",
-	"bust":"none"
+	"key":"none",   #Red key or Blue key
+        "tool":"none", #Lock Pick or Crowbar
+	"bust":"none"   #Shakespeare/Beethoven
 	}
 #Storyline
-    print("You entered a building but what's this?? \
-    The front door behind you just locked. You're trapped.")
+def mainRoom():
+    if not roomList:
+        finalDoor()
+    else:   
+        print("You entered a building but what's this?? \
+        The front door behind you is locked. You're trapped.")
 
-    print("You find an empty backpack; better take it with you \
-    you'll need it.")
-#Beginning of "level 1/door 1"; printed info will include clues
-    print("Look around the room and you see 2 notebooks and 3 pens and \
-	1 mug and 4 sugar packets")
-    self.addButton(text = "Door 1", row = 3, column = 0, command = self.roomOne)
-    self.addButton(text = "Door 2", row = 3, column = 1, command = self.roomTwo)
-    self.addButton(text = "Door 3", row = 3, column = 2, command = self.roomThree)
-    self.addButton(text = "Door 4", row = 3, column = 3, command = self.roomFour)
-    
+        print("You find an empty backpack; better take it with you \
+        you'll need it.")
+        
+        print("Look around the room and you see 2 notebooks and 3 pens and \
+            1 mug and 4 sugar packets")
+        try:
+            room1 = roomList.index(room1)
+            doorOne()
+        except ValueError:
+            self.doorOneButton["state"] = "disabled"
 #Room one function; keycode for entry
-def roomOne(self):
+
+def doorOne():
+
+    pygame.image.load('doorone.png')
     MAX_ENTRIES = 4
     self.counter = 1
     print("On the door you see a keycode that requires four digits to open")
     textEntry = self.textField.getText()
-    if textEntry == "1234":
-        print("riddle/puzzle to gain item")
-    #picture of room 1
-    #if/else puzzle/riddle to gain backpack item
-    #recieve item to add to backpack dictionary if riddle/puzzle is correct
-    elif:
-        print("That's the wrong code.")
-        counter += 1
-    else:
-        print("You've failed too many time; GAME OVER")
-        print("termination in 15 seconds")
+    door_unlocked = False
+
+    while True:
+        if self.counter < 4:
+            if textEntry == "1234":
+                print("You opened the door!")
+                door_unlocked = True
+                roomOne()
+            else:
+                print("That's the wrong code. Try again.")
+                self.counter += 1
+        else:
+            print(dedent("""
+You've entered the wrong code too many times.  The door is sealed and you can no\
+longer attempt to go through. GAME OVER.
+"""))
+        # termination/game over happens after 15 seconds
         time.sleep(15)
         exit()
         
-def roomTwo(self):
+#img of room 1 
+def roomOne():
+    # open text file with riddle
+    pygame.image.load('busts.png')
+    open('clue.txt', 'r')
+    command = self.textField.getText()
+    if command.lower() == 'shakespeare':
+        backpack.update("bust", "shakespeare")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room1) #remove room 1 from list for no re-entry
+        mainRoom()
+    elif command.lower() == 'beethoven':
+        backpack.update("bust", "beethoven")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room1)
+        mainRoom()
+    else:
+        print("Invalid item, choose Shakespeare or Beethoven")
+    close()
+        
+    #recieve item to add to backpack dictionary if riddle/puzzle is correct
+        
+def roomTwo():
+    pygame.image.load('keys.png')
+    print(dedent(
+        """Looks like the door was unlocked! \
+Collect the item and choose wisely; Main color of the Arizona Cardinals.
+"""))
 
+        
+    command = self.textField.getText()
+    if command.lower() == 'red key':
+        backpack.update("key", "red")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room2) #remove room 2 from list for no re-entry
+        mainRoom()
+    elif command.lower() == 'blue key':
+        backpack.update("key", "blue")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room2)
+        mainRoom()
+    else:
+        print("Invalid item, choose Red key or Blue key")
+
+def roomThree():
+    pygame.image.load('Tools.png')
+    print(dedent(
+        """ Unlocked again!! Still not free.. \
+Think Skyrim, the master thief would have unbreakable ______. 
+"""))
+
+        
+    command = self.textField.getText()
+    if command.lower() == 'crowbar':
+        backpack.update("tool", "crowbar")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room3) #remove / no re-entry once in room 3
+        mainRoom()
+    elif command.lower() == 'lock pick':
+        backpack.update("tool", "lock pick")
+        print("You've earned a backpack item!")
+        print("Looks like you're back to the main room... Still trapped")
+        roomList.remove(room3)
+        mainRoom()
+    else:
+        print("Invalid item, choose Crowbar or Lock Pick.")
+    
     
 
-def roomThree(self):
-    
-    
-
-def roomFour(self):
-    
+def finalDoor():
+    pygame.image.load('final.png')
+    print(f"You've collected a {bust} bust, {key} key, and a {tool}.")
+    print("Did you choose wisely? Are you finally free?")
+    if all(key in backpack for key in ('shakespeare', 'red key', 'lock pick')):
+        print("You've escaped!! Great Job!")
+        pygame.image.load('youwin.png')
+    else:
+        pygame.image.load('game-over.png')
+        print("You've chosen the wrong items; better luck next time. GAME OVER")
+        time.sleep(15)
